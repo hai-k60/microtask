@@ -1,0 +1,23 @@
+
+.header{
+  height: 65px;
+  background-color: #343a40;
+  width: 100%;
+}
+
+.micro{
+  font-size: 37px;
+  font-weight: bold;
+  color: aliceblue;
+}
+
+.task{
+  font-size: 37px;
+  font-weight: bold;
+  color: goldenrod;
+}
+
+.h-cen{
+  line-height: 65px;
+  margin-left: 40%;
+}

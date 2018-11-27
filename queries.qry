@@ -1,0 +1,22 @@
+/** Sample queries for Commodity Trading business network
+*/
+
+
+query selectAllCompany {
+  description: "Select all company"
+  statement:
+      SELECT org.microtask.company
+}
+
+
+query selectAllWorker {
+  description: "Select all worker"
+  statement:
+      SELECT org.microtask.worker
+}
+
+query selectAlltransaction {
+  description: "Select all transaction"
+  statement:
+      SELECT org.microtask.registerjob
+}

@@ -1,0 +1,105 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Sample access control list.
+ */
+//////Worker Access
+
+//Worker to have access only to their own account
+rule WorkerAccessOwnRecord {
+    description: "Allow worker to access only their profile"
+    participant(p): "org.microtask.worker"
+    operation: ALL
+    resource(r): "org.microtask.worker"
+    condition: (r.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+//Worker Not to have access to other worker accounts
+rule WorkerAccessWorkers {
+    description: "Deny Worker access to other Worker accounts"
+    participant: "org.microtask.worker"
+    operation: ALL
+    resource: "org.microtask.worker"
+    action: DENY
+}
+
+//Worker not create job
+rule WorkerCreateUpdateJobs {
+    description: "Deny Worker create, update job"
+    participant: "org.microtask.worker"
+    operation: CREATE, UPDATE
+    resource: "org.microtask.job"
+    action: DENY
+}
+
+//Worker read job
+rule WorkerReadJobs{
+	description: "Allow woker Read job"
+  	participant:"org.microtask.worker"
+  	operation: READ
+    resource: "org.microtask.job"
+    action: ALLOW
+}
+
+////Company access
+
+//Company to have access only to their own account
+
+rule companyAccessOwnRecord {
+    description: "Allow company to access only their profile"
+    participant(p): "org.microtask.company"
+    operation: ALL
+    resource(r): "org.microtask.company"
+    condition: (r.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+//Company Not to have access to other company accounts
+
+
+//Company have to access to asset
+rule companyAccessJob {
+    description: "Allow company to access only their profile"
+    participant(p): "org.microtask.company"
+    operation: ALL
+    resource(r): "org.microtask.job"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "ANY"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}

@@ -1,0 +1,22 @@
+{
+  "name": "webapp",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "ejs": "~2.5.7",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0",
+    "composer-admin": "^0.20.2",
+    "composer-cli": "^0.20.2",
+    "composer-client": "^0.20.2",
+    "composer-common": "^0.20.2",
+    "composer-connector-embedded": "^0.20.2",
+    "composer-cucumber-steps": "^0.20.2"
+  }
+}
