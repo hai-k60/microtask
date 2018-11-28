@@ -36,23 +36,76 @@ rule WorkerAccessWorkers {
     action: DENY
 }
 
-//Worker not create job
-rule WorkerCreateUpdateJobs {
-    description: "Deny Worker create, update job"
+//Worker to have read company
+rule WorkerReadCompanys {
+    description: "Deny Worker access to other Worker accounts"
     participant: "org.microtask.worker"
-    operation: CREATE, UPDATE
-    resource: "org.microtask.job"
-    action: DENY
+    operation: READ
+    resource: "org.microtask.company"
+    action: ALLOW
 }
 
 //Worker read job
 rule WorkerReadJobs{
 	description: "Allow woker Read job"
   	participant:"org.microtask.worker"
-  	operation: READ
+  	operation: READ,UPDATE
     resource: "org.microtask.job"
     action: ALLOW
 }
+
+//Worker register job
+rule WorkerRegisterJobs{
+	description: "allow Worker register jobs"
+    participant(p): "org.microtask.worker"
+    operation: READ, CREATE, UPDATE
+    resource(r): "org.microtask.registerjob"
+    condition: (p.getIdentifier() === r.worker.getIdentifier())
+    action: ALLOW
+}
+
+//Worker update company when register job
+rule WorkerRegisterjobUpdateCompanys {
+    description: "Deny Worker access to other Worker accounts"
+    participant(p): "org.microtask.worker"
+    operation: UPDATE
+    resource(r): "org.microtask.company"
+  	transaction(tx): "org.microtask.registerjob"
+  	condition: (p.getIdentifier() === tx.worker.getIdentifier())
+    action: ALLOW
+}
+
+//Worker Completejob
+rule WorkerCompleteJobs{
+	description: "allow Worker complete jobs"
+    participant(p): "org.microtask.worker"
+    operation: READ, CREATE, UPDATE
+    resource(r): "org.microtask.completejob"
+    condition: (p.getIdentifier() === r.worker.getIdentifier())
+    action: ALLOW
+}
+
+//Worker cancel job
+rule WorkerCancelJobs{
+	description: "allow Worker cancel jobs"
+    participant(p): "org.microtask.worker"
+    operation: READ, CREATE, UPDATE
+    resource(r): "org.microtask.canceljob"
+    condition: (p.getIdentifier() === r.worker.getIdentifier())
+    action: ALLOW
+}
+
+//Worker update company when cancel job
+rule WorkerCanceljobUpdateCompanys {
+    description: "Deny Worker access to other Worker accounts"
+    participant(p): "org.microtask.worker"
+    operation: UPDATE
+    resource(r): "org.microtask.company"
+  	transaction(tx): "org.microtask.canceljob"
+  	condition: (p.getIdentifier() === tx.worker.getIdentifier())
+    action: ALLOW
+}
+
 
 ////Company access
 
@@ -79,6 +132,7 @@ rule companyAccessJob {
     condition: (r.owner.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
+
 
 rule SystemACL {
   description:  "System ACL to permit all access"
