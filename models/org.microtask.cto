@@ -20,17 +20,17 @@ namespace org.microtask
 
 enum Statetype{
   o empty
-  o watting
+  o waitting
   o complete
 }
 
 participant worker identified by Id_worker{
   o String Id_worker
   o String name
-  o DateTime birth
+  o String birthday
   o String email
   o String phone
-  o String adress
+  o String address
   o String skill
   o Integer coin
 }
@@ -40,7 +40,7 @@ participant company identified by Id_company{
   o String name
   o String email
   o String phone
-  o String adress
+  o String address
   o Integer coin
 }
 
@@ -63,7 +63,16 @@ transaction buycoin {
 transaction registerjob{
   --> job job
   --> worker worker
-  o String request
+}
+
+transaction completejob{
+  --> job job
+  --> worker worker
+}
+
+transaction canceljob{
+  --> job job
+  --> worker worker
 }
 
 

@@ -8,11 +8,16 @@ query selectAllCompany {
       SELECT org.microtask.company
 }
 
-
 query selectAllWorker {
   description: "Select all worker"
   statement:
       SELECT org.microtask.worker
+}
+
+query selectAllJob {
+  description: "Select all job"
+  statement:
+      SELECT org.microtask.job
 }
 
 query selectAlltransaction {
